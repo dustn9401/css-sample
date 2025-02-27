@@ -14,9 +14,18 @@ c# 샘플코드
     - IEnumerable<T> 함수 반환형 사용
     - Linq(LastOrDefault) 사용
 
-3. JsonParse: json 문자열을 기본 Deserialize<T> 함수를 사용해서 타입을 미리 지정하여 Deserialize 하는 것이 아닌, Newtonsoft.Json.Linq를 사용하여 예외처리 하며 Deserialize하는 과정을 담은 코드
+3. JsonParse: json 문자열을 Newtonsoft.Json.Linq 를 사용하여 Deserialize하는 과정을 담은 코드
 
 4. PlayerPrefsHelper
-    - DateTime을 long 형식 로컬타임으로 저장
+    - 시간을 Timestamp 로 저장
     - 유저가 특정 기간 내에 어떤 행동을 했는지 여부 등 날짜와 관련된 유틸리티 함수들
     - PlayerPrefs.Save 함수가 동시에 여러번 호출되면 부하가 크기 때문에, Throttle 방식으로 최적화 (SavePlayerPrefsThrottleAction)
+
+5. UIRewardGainAnimation
+   아래 획득 연출에 대한 코드 입니다.
+   ![Movie_051](https://github.com/user-attachments/assets/2bbad317-3124-4b18-8e2e-44de36ed28c2)
+
+6. TextSpriteUtilityWindow
+   여러 텍스쳐를 하나로 합치고, Multiple 타입 스프라이트로 임포트 하는 유틸리티 윈도우 입니다.
+
+
