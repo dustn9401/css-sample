@@ -22,7 +22,7 @@ public static class PlayerPrefsHelper
     /// <returns></returns>
     public static bool GetDidToday(string key) {
         var lastDate = GetDateTime(key);
-        return lastDate.Date == DateTimeWrapper.Now.Date;
+        return lastDate.Date == DateTimeWrapper.UtcNow.Date;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public static class PlayerPrefsHelper
     /// <returns></returns>
     public static bool GetDidThisWeek(string key) {
         var lastDate = GetDateTime(key);
-        return AreDatesAreInTheSameWeek(DateTimeWrapper.Now, lastDate);
+        return AreDatesAreInTheSameWeek(DateTimeWrapper.UtcNow, lastDate);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public static class PlayerPrefsHelper
     /// <returns></returns>
     public static bool GetDidWithinTime(string key, TimeSpan timeElapsed) {
         var lastDate = GetDateTime(key, DateTimeWrapper.MinValue);
-        return lastDate + timeElapsed > DateTimeWrapper.Now;
+        return lastDate + timeElapsed > DateTimeWrapper.UtcNow;
     }
 
     public static void SetDidNow(string key) {
@@ -84,7 +84,7 @@ public static class PlayerPrefsHelper
         var dateCheckKey = $"{key}_LAST_DATE_CHECK_KEY";
         var lastDateCheck = GetDateTime(dateCheckKey, DateTimeWrapper.MinValue);
         if (lastDateCheck < DateTimeWrapper.TodayUtc) {
-            SetDateTime(dateCheckKey, DateTimeWrapper.Now);
+            SetDateTime(dateCheckKey, DateTimeWrapper.UtcNow);
             PlayerPrefs.SetInt(key, defaultValue);
         }
 
@@ -102,8 +102,8 @@ public static class PlayerPrefsHelper
     public static int GetCountThisWeek(string key, int defaultValue = 0) {
         var dateCheckKey = $"{key}_LAST_DATE_CHECK_KEY_THIS_WEEK";
         var lastWeekCheck = GetDateTime(dateCheckKey, DateTimeWrapper.MinValue);
-        if ((DateTimeWrapper.Now.Date - lastWeekCheck).Days >= 7) {
-            SetDateTime(dateCheckKey, DateTimeWrapper.Now.Date);
+        if (!AreDatesAreInTheSameWeek(DateTimeWrapper.UtcNow.Date, lastWeekCheck)) {
+            SetDateTime(dateCheckKey, DateTimeWrapper.UtcNow.Date);
             PlayerPrefs.SetInt(key, defaultValue);
         }
 
@@ -117,8 +117,8 @@ public static class PlayerPrefsHelper
     public static int GetCountThisYear(string key, int defaultValue = 0) {
         var dateCheckKey = $"{key}_LAST_DATE_CHECK_KEY_THIS_YEAR";
         var lastDateCheck = GetDateTime(dateCheckKey, DateTimeWrapper.MinValue);
-        if (DateTimeWrapper.Now.Year != lastDateCheck.Year) {
-            SetDateTime(dateCheckKey, DateTimeWrapper.Now);
+        if (DateTimeWrapper.UtcNow.Year != lastDateCheck.Year) {
+            SetDateTime(dateCheckKey, DateTimeWrapper.UtcNow);
             PlayerPrefs.SetInt(key, defaultValue);
         }
 
